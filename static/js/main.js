@@ -1,15 +1,14 @@
-for (let day = 0; day < 7; day++) {
-    start_day = getFirstDay
-}
+var add_btn = document.getElementById('add-btn');
+var form = document.getElementById('form-wrap');
+var hover_area = document.getElementById('hover-area');
 
-function getFirstDay(d) {
-    d = new Date(d);
-    var day = d.getDay(), diff = d.getDate() - day;
-    return new Date(d.setDate(diff));
-}
+add_btn.addEventListener('click', () => {
+    $("#form-wrap").stop(true).animate({'width': 'toggle'});
+    $("#add-btn").css({"display": "none"});
+});
 
-function getLastDay(d) {
-    d = new Date(d);
-    var day = d.getDay(), diff = d.getDate() + (6 - day);
-    return new Date(d.setDate(diff));
-}
+// コンテンツを非表示
+$('#close-form-btn').on('click', function () { // 表示されたコンテンツをクリックで削除
+    $("#form-wrap").css({"display": "none"});
+    $("#add-btn").css({"display": "block"});
+});

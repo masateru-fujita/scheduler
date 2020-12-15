@@ -7,24 +7,70 @@
     <title>スケジュール</title>
 </head>
 <body>
-    <table>
+    <table border="1">
         <thead>
             <tr>
                 <th></th>
                 {% for date in dates %}
-                    <th>{{ date }}</th>
+                    <th>
+                        {{ date | date:"m月d日" }}
+                    </th>
                 {% endfor %}
             <tr>
         </thread>
         <tbody>
+            {% comment %} ユーザ {% endcomment %}
             {% for userschedule in schedules %}
             <tr>
-                <td>{{ userschedule }}</td>
-                <br>{{schedules.values.values}}
+                <th>{{ userschedule.name }}</th>
+                {% comment %} 日にち {% endcomment %}
+                {% for hoge in userschedule.schedule %}
+                    {% comment %} スケジュール {% endcomment %}
+                    <td>
+                    {% for fuga in hoge %}
+                        <p>{{ fuga.title }}</p>
+                        <p>{{ fuga.start_time }}~{{ fuga.end_time }}</p>
+                    {% endfor %}
+                    </td>
+                {% endfor %}
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    <a href="{% url 'schedule:schedule_list' prev_week.year prev_week.month prev_week.day %}">先週</a>
+    <a href="{% url 'schedule:schedule_list' next_week.year next_week.month next_week.day %}">次週</a>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div>
+            <label for="title">タイトル</label>
+            <input type="text" id="title" name="title">
+        <div>
+            <label>詳細</label>
+            <textarea name="detail"></textarea>
+        <div>
+            <label>ユーザ</label>
+            {% for user in schedules %}
+            <div>
+                {{ user.name }}<input type="checkbox" name="user_id" value="{{ user.user_id }}">
+            </div>
+            {% endfor %}
+        </div>
+        <div>
+            <label>日付</label>
+            <input type="date" name="date">
+        </div>
+        <div>
+            <label>開始時間</label>
+            <input type="time" name="start_time">
+        </div>
+        <div>
+            <label>終了時間</label>
+            <input type="time" name="end_time">
+        </div>
+        <div>
+            <input class="btn" type="submit" value="追加する">
+        </div>
+    </form>
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
 </body>
 </html>
